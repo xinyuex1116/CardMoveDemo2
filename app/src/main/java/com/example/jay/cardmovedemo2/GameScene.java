@@ -25,42 +25,43 @@ public class GameScene extends View{
 
     int width = 93;
     int height = 143;
+    int marginLeft = 100;
+    int marginTop = 100;
     int marginX = 50;
     int marginY = 300;
 
-    Rect screen = new Rect(10, 10, 1200, 800);
+    int touchCorrection;
+
+    Rect screen = new Rect(10, 10, 1200, 1200);
 
     Pile[] pileList = new Pile[7];
 
-//    int numberOfCards = 8;
-//    Card[] cardList = new Card[numberOfCards];
 
     ArrayList<Card> tempList = new ArrayList<Card>();
 
     int lastIndexOfPile = -1;
 
-    int i;
-
-    public GameScene(Context context, RelativeLayout relativeLayout) {
+    public GameScene(Context context, RelativeLayout relativeLayout, int touchCorrection) {
         super(context);
 
         this.context = context;
+        this.touchCorrection = touchCorrection;
 
         for(int i = 0;i<7;i++) {
             ImageView pileImg = new ImageView(context);
             pileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
             if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-                pileImg.setX(20+i*(marginX+width));
-                pileImg.setY(100);
+                pileImg.setX(marginLeft+i*(marginX+width));
+                pileImg.setY(marginTop);
             }
             else {
                 if(i<4){
-                    pileImg.setX(20+i*(marginX+width));
-                    pileImg.setY(100);
+                    pileImg.setX(marginLeft+i*(marginX+width));
+                    pileImg.setY(marginTop);
                 }
                 else {
-                    pileImg.setX(20+(i-4)*(marginX+width));
-                    pileImg.setY(100+height+marginY);
+                    pileImg.setX(marginLeft+(i-4)*(marginX+width));
+                    pileImg.setY(marginTop+height+marginY);
                 }
             }
             pileImg.setBackgroundColor(Color.GRAY);
@@ -100,10 +101,10 @@ public class GameScene extends View{
 
                 for (int i = 0; i < pileList.length; i++) {
 
-                    if (pileList[i].area.contains((int) e.getRawX(), (int) e.getRawY() - 160)) {
+                    if (pileList[i].area.contains((int) e.getRawX(), (int) e.getRawY() + touchCorrection)) {
 
                         lastIndexOfPile = i;
-                        pileList[i].addCardsSelectedToList(tempList, (int) e.getRawX(), (int) e.getRawY() - 160);
+                        pileList[i].addCardsSelectedToList(tempList, (int) e.getRawX(), (int) e.getRawY() + touchCorrection);
                         if (tempList.size() != 0) {
                             pileList[i].removeCardsFromCardToLast(tempList.get(0));
                         }
@@ -115,7 +116,7 @@ public class GameScene extends View{
 
                 if (tempList.size() != 0) {
                     for (int i = 0; i < tempList.size(); i++) {
-                        tempList.get(i).setLocation((int) e.getRawX() - 50, (int) e.getRawY() - 160 - 50 + 40 * i);
+                        tempList.get(i).setLocation((int) e.getRawX() - 50, (int) e.getRawY() + touchCorrection - 50 + 40 * i);
                     }
                 }
 
@@ -123,10 +124,10 @@ public class GameScene extends View{
 
             case MotionEvent.ACTION_MOVE:
 
-                if (screen.contains((int) e.getRawX(), (int) e.getRawY() - 160)) {
+                if (screen.contains((int) e.getRawX(), (int) e.getRawY() + touchCorrection)) {
                     if (tempList.size() != 0) {
                         for (int i = 0; i < tempList.size(); i++) {
-                            tempList.get(i).setLocation((int) e.getRawX() - 50, (int) e.getRawY() - 160 - 50 + 40 * i);
+                            tempList.get(i).setLocation((int) e.getRawX() - 50, (int) e.getRawY() + touchCorrection - 50 + 40 * i);
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                 tempList.get(i).img.setElevation(100 + i);
                             }
@@ -144,15 +145,13 @@ public class GameScene extends View{
 
             case MotionEvent.ACTION_UP:
 
-                if (screen.contains((int) e.getRawY(), (int) e.getRawY())) {
+                if (screen.contains((int) e.getRawY(), (int) e.getRawY() + touchCorrection)) {
 
                     if (tempList.size() != 0) {
                         for (int i = 0; i < pileList.length; i++) {
-                            if (pileList[i].area.contains((int) e.getRawX(), (int) e.getRawY() - 160)) {
+                            if (pileList[i].area.contains((int) e.getRawX(), (int) e.getRawY() + touchCorrection)) {
 
                                 if (pileList[i].addCardFromList(tempList)) {
-                                    Log.d("m:", String.valueOf(pileList[i].location.x) + "/" + String.valueOf(pileList[i].location.y));
-                                    Log.d("m:",String.valueOf(tempList.get(0).img.getX())+"/"+String.valueOf(tempList.get(0).img.getY()));
                                     tempList.clear();
                                     pileList[lastIndexOfPile].openLastCard();
                                     break;
