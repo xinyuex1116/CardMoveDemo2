@@ -3,6 +3,7 @@ package com.example.jay.cardmovedemo2;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -41,13 +42,13 @@ public class Pile {
         if(cardList.size()!=0) {
 
             if (cardList.get(cardList.size() - 1).isOpen()) {
-                card.setLocation(this.area.left, area.top + getNumberOfCloseCard()*distanceBetweenCloseCards+(cardList.size()-getNumberOfCloseCard())*distanceBetweenOpenCards);
+                card.setLocation(location.x, location.y + getNumberOfCloseCard()*distanceBetweenCloseCards+(cardList.size()-getNumberOfCloseCard())*distanceBetweenOpenCards);
             } else {
-                card.setLocation(this.area.left, area.top + getNumberOfCloseCard()*distanceBetweenCloseCards+(cardList.size()-getNumberOfCloseCard())*distanceBetweenOpenCards);
+                card.setLocation(location.x, location.y + getNumberOfCloseCard()*distanceBetweenCloseCards+(cardList.size()-getNumberOfCloseCard())*distanceBetweenOpenCards);
             }
         }
         else {
-            card.setLocation(this.area.left, this.area.top);
+            card.setLocation(location.x, location.y);
         }
         cardList.add(card);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -81,8 +82,8 @@ public class Pile {
             for (int i = 0; i < tempList.size(); i++) {
                 tempList.get(i).pile = this;
 
-                tempList.get(i).setLocation(area.left,
-                                            area.top + getNumberOfCloseCard()*distanceBetweenCloseCards+(cardList.size()-getNumberOfCloseCard())*distanceBetweenOpenCards);
+                tempList.get(i).setLocation(location.x,
+                                            location.y + getNumberOfCloseCard()*distanceBetweenCloseCards+(cardList.size()-getNumberOfCloseCard())*distanceBetweenOpenCards);
                 cardList.add(tempList.get(i));
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -102,7 +103,7 @@ public class Pile {
         for (int i = 0; i < tempList.size(); i++) {
             tempList.get(i).pile = this;
 
-            tempList.get(i).setLocation(area.left, area.top + getNumberOfCloseCard()*distanceBetweenCloseCards+(cardList.size()-getNumberOfCloseCard())*distanceBetweenOpenCards);
+            tempList.get(i).setLocation(location.x, location.y + getNumberOfCloseCard()*distanceBetweenCloseCards+(cardList.size()-getNumberOfCloseCard())*distanceBetweenOpenCards);
             cardList.add(tempList.get(i));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -140,8 +141,9 @@ public class Pile {
         }
     }
 
-    public void addCardsSelectedToList(ArrayList<Card> tempList,int x,int y){
+    public void addCardsSelectedToList(final ArrayList<Card> tempList,int x,int y){
         for(int i = 0;i<cardList.size();i++){
+
             if(i!=cardList.size()-1){
                 Card tempCard = cardList.get(i);
                 ImageView tempImg = tempCard.img;

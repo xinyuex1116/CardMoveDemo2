@@ -1,7 +1,9 @@
 package com.example.jay.cardmovedemo2;
 
 import android.graphics.Paint;
+import android.os.Build;
 import android.support.annotation.DrawableRes;
+import android.view.View;
 import android.widget.ImageView;
 
 import java.util.Collection;
@@ -46,6 +48,7 @@ public class Card {
         else {
             img.setImageResource(R.drawable.back);
         }
+
     }
 
     public int getRank(){
@@ -83,6 +86,7 @@ public class Card {
             return false;
         }
     }
+
 
     public boolean isSameSuit(Card compareCard){
         if(this.suit == compareCard.suit){
