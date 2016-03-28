@@ -1,5 +1,6 @@
 package com.example.jay.cardmovedemo2;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
@@ -115,3 +116,4 @@ public class Card {
         }
     }
 }
+

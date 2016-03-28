@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 
 public class MainActivity extends AppCompatActivity {
 
+    GameScene gameScene;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,8 +21,9 @@ public class MainActivity extends AppCompatActivity {
         RelativeLayout relativeLayout = new RelativeLayout(this);
         relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
+        gameScene = new GameScene(this, relativeLayout, -162);
 
-        relativeLayout.addView(new GameScene(this, relativeLayout, -162));
+        relativeLayout.addView(gameScene);
 
         setContentView(relativeLayout);
 
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         int contentTop = v.getTop();
 
         Log.d("touchCorrection:",String.valueOf(-(contentTop+statusBarHeight)));
+
+        gameScene.touchCorrection = -(contentTop+statusBarHeight);
     }
 
 }
