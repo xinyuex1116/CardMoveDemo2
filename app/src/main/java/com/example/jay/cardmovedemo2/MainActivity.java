@@ -3,6 +3,7 @@ package com.example.jay.cardmovedemo2;
 import android.graphics.Rect;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,11 +19,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+
         RelativeLayout relativeLayout = new RelativeLayout(this);
         relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        gameScene = new GameScene(this, relativeLayout, -162);
-
+        if(height>width) {
+            gameScene = new GameScene(this, relativeLayout, -162, width/8, width/8/93*143);
+        }
+        else {
+            gameScene = new GameScene(this, relativeLayout, -162, height/8, height/8/93*143);
+        }
         relativeLayout.addView(gameScene);
 
         setContentView(relativeLayout);

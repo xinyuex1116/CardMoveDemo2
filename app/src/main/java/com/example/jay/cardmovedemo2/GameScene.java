@@ -49,11 +49,13 @@ public class GameScene extends View{
     boolean isFromWaste = false;
     int fromIndexOfFoundation = -1;
 
-    public GameScene(Context context, RelativeLayout relativeLayout, int touchCorrection) {
+    public GameScene(Context context, RelativeLayout relativeLayout, int touchCorrection, int width, int height) {
         super(context);
 
         this.context = context;
         this.touchCorrection = touchCorrection;
+        this.width = width;
+        this.height = height;
 
         for(int i = 0;i<7;i++) {
             ImageView pileImg = new ImageView(context);
@@ -76,6 +78,8 @@ public class GameScene extends View{
             relativeLayout.addView(pileImg);
 
             basicPileList[i] = new BasicPile(new Point((int)pileImg.getX(), (int)pileImg.getY()));
+            basicPileList[i].width = width;
+            basicPileList[i].height = height;
         }
 
         ImageView stockImg = new ImageView(context);
@@ -93,6 +97,8 @@ public class GameScene extends View{
         relativeLayout.addView(wasteImg);
 
         stockAndWaste = new StockAndWaste(new Point((int)stockImg.getX(), (int)stockImg.getY()), new Point((int)wasteImg.getX(), (int)wasteImg.getY()));
+        stockAndWaste.width = width;
+        stockAndWaste.height = height;
 
         ImageView heartFoundationPileImg = new ImageView(context);
         heartFoundationPileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
@@ -101,6 +107,8 @@ public class GameScene extends View{
         heartFoundationPileImg.setY(70);
         relativeLayout.addView(heartFoundationPileImg);
         foundationPiles[0] = new FoundationPile(new Point((int)heartFoundationPileImg.getX(), (int)heartFoundationPileImg.getY()), Card.Suit.Heart);
+        foundationPiles[0].width = width;
+        foundationPiles[0].height = height;
 
         ImageView clubFoundationPileImg = new ImageView(context);
         clubFoundationPileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
@@ -109,6 +117,8 @@ public class GameScene extends View{
         clubFoundationPileImg.setY(70);
         relativeLayout.addView(clubFoundationPileImg);
         foundationPiles[1] = new FoundationPile(new Point((int)clubFoundationPileImg.getX(), (int)clubFoundationPileImg.getY()), Card.Suit.Club);
+        foundationPiles[1].width = width;
+        foundationPiles[1].height = height;
 
         ImageView spadeFoundationPileImg = new ImageView(context);
         spadeFoundationPileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
@@ -117,6 +127,8 @@ public class GameScene extends View{
         spadeFoundationPileImg.setY(70);
         relativeLayout.addView(spadeFoundationPileImg);
         foundationPiles[2] = new FoundationPile(new Point((int)spadeFoundationPileImg.getX(), (int)spadeFoundationPileImg.getY()), Card.Suit.Heart);
+        foundationPiles[2].width = width;
+        foundationPiles[2].height = height;
 
         ImageView diamondFoundationPileImg = new ImageView(context);
         diamondFoundationPileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
@@ -125,6 +137,8 @@ public class GameScene extends View{
         diamondFoundationPileImg.setY(70);
         relativeLayout.addView(diamondFoundationPileImg);
         foundationPiles[3] = new FoundationPile(new Point((int)diamondFoundationPileImg.getX(), (int)diamondFoundationPileImg.getY()), Card.Suit.Diamond);
+        foundationPiles[3].width = width;
+        foundationPiles[3].height = height;
 
         Card club1 = new Card(stockAndWaste, getCardImageView(relativeLayout), 1, Card.Suit.Club, R.drawable.club1);
         Card diamond2 = new Card(stockAndWaste, getCardImageView(relativeLayout), 2, Card.Suit.Diamond, R.drawable.diamond2);

@@ -23,6 +23,7 @@ public class Card {
     private int color;
     private boolean isOpen = false;
     @DrawableRes int imgId;
+    @DrawableRes int backImgId = R.drawable.back;
 
     public Card(Pile pile, ImageView img, int rank, Suit suit, @DrawableRes int imgId){
         this.img = img;
@@ -47,7 +48,7 @@ public class Card {
             img.setImageResource(imgId);
         }
         else {
-            img.setImageResource(R.drawable.back);
+            img.setImageResource(backImgId);
         }
 
     }
@@ -71,7 +72,7 @@ public class Card {
 
     public void closeCard(){
         isOpen = false;
-        img.setImageResource(R.drawable.back);
+        img.setImageResource(backImgId);
     }
 
     public void setLocation(float x, float y){
