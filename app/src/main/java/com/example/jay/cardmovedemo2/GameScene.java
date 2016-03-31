@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class GameScene extends View{
     int width = 93;
     int height = 143;
     int marginLeft = 100;
-    int marginTop = 300;
+    int marginTop = 250;
     int marginX = 50;
     int marginY = 300;
 
@@ -100,64 +101,67 @@ public class GameScene extends View{
         stockAndWaste.width = width;
         stockAndWaste.height = height;
 
-        ImageView heartFoundationPileImg = new ImageView(context);
-        heartFoundationPileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
-        heartFoundationPileImg.setBackgroundColor(Color.GRAY);
-        heartFoundationPileImg.setX(100 + marginX * 2 + width * 2);
-        heartFoundationPileImg.setY(70);
-        relativeLayout.addView(heartFoundationPileImg);
-        foundationPiles[0] = new FoundationPile(new Point((int)heartFoundationPileImg.getX(), (int)heartFoundationPileImg.getY()), Card.Suit.Heart);
-        foundationPiles[0].width = width;
-        foundationPiles[0].height = height;
-
-        ImageView clubFoundationPileImg = new ImageView(context);
-        clubFoundationPileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
-        clubFoundationPileImg.setBackgroundColor(Color.GRAY);
-        clubFoundationPileImg.setX(heartFoundationPileImg.getX() + 40 + width);
-        clubFoundationPileImg.setY(70);
-        relativeLayout.addView(clubFoundationPileImg);
-        foundationPiles[1] = new FoundationPile(new Point((int)clubFoundationPileImg.getX(), (int)clubFoundationPileImg.getY()), Card.Suit.Club);
-        foundationPiles[1].width = width;
-        foundationPiles[1].height = height;
-
-        ImageView spadeFoundationPileImg = new ImageView(context);
-        spadeFoundationPileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
-        spadeFoundationPileImg.setBackgroundColor(Color.GRAY);
-        spadeFoundationPileImg.setX(clubFoundationPileImg.getX() + 40 + width);
-        spadeFoundationPileImg.setY(70);
-        relativeLayout.addView(spadeFoundationPileImg);
-        foundationPiles[2] = new FoundationPile(new Point((int)spadeFoundationPileImg.getX(), (int)spadeFoundationPileImg.getY()), Card.Suit.Heart);
-        foundationPiles[2].width = width;
-        foundationPiles[2].height = height;
-
-        ImageView diamondFoundationPileImg = new ImageView(context);
-        diamondFoundationPileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
-        diamondFoundationPileImg.setBackgroundColor(Color.GRAY);
-        diamondFoundationPileImg.setX(spadeFoundationPileImg.getX() + 40 + width);
-        diamondFoundationPileImg.setY(70);
-        relativeLayout.addView(diamondFoundationPileImg);
-        foundationPiles[3] = new FoundationPile(new Point((int)diamondFoundationPileImg.getX(), (int)diamondFoundationPileImg.getY()), Card.Suit.Diamond);
-        foundationPiles[3].width = width;
-        foundationPiles[3].height = height;
+        setFoundationPile(relativeLayout, (int)wasteImg.getX()+marginX+width, (int)wasteImg.getY(), 0, Card.Suit.Club);
+        setFoundationPile(relativeLayout, (int)wasteImg.getX()+(marginX+width)*2, (int)wasteImg.getY(), 1, Card.Suit.Spade);
+        setFoundationPile(relativeLayout, (int)wasteImg.getX()+(marginX+width)*3, (int)wasteImg.getY(), 2, Card.Suit.Diamond);
+        setFoundationPile(relativeLayout, (int)wasteImg.getX()+(marginX+width)*4, (int)wasteImg.getY(), 3, Card.Suit.Heart);
 
         Card club1 = new Card(stockAndWaste, getCardImageView(relativeLayout), 1, Card.Suit.Club, R.drawable.club1);
-        Card diamond2 = new Card(stockAndWaste, getCardImageView(relativeLayout), 2, Card.Suit.Diamond, R.drawable.diamond2);
-        Card heart3 = new Card(stockAndWaste, getCardImageView(relativeLayout), 3, Card.Suit.Heart, R.drawable.heart3);
-        Card spade4 = new Card(stockAndWaste, getCardImageView(relativeLayout), 4, Card.Suit.Spade, R.drawable.spade4);
-        Card heart5 = new Card(stockAndWaste, getCardImageView(relativeLayout),5, Card.Suit.Heart, R.drawable.heart5);
-        Card diamond6 = new Card(stockAndWaste, getCardImageView(relativeLayout),6, Card.Suit.Diamond, R.drawable.diamond6);
-        Card club7 = new Card(stockAndWaste, getCardImageView(relativeLayout),7, Card.Suit.Club, R.drawable.club7);
-        Card diamond8 = new Card(stockAndWaste, getCardImageView(relativeLayout),8, Card.Suit.Diamond, R.drawable.diamond8);
-        Card heart9 = new Card(stockAndWaste, getCardImageView(relativeLayout),9, Card.Suit.Heart, R.drawable.heart9);
-        Card spade10 = new Card(basicPileList[2], getCardImageView(relativeLayout),10, Card.Suit.Spade, R.drawable.spade10); spade10.openCard();
-        Card spade2 = new Card(stockAndWaste, getCardImageView(relativeLayout),2, Card.Suit.Spade, R.drawable.spade2);
-        Card club3 = new Card(basicPileList[1], getCardImageView(relativeLayout),3, Card.Suit.Club, R.drawable.club3); club3.openCard();
-        Card club5 = new Card(basicPileList[0], getCardImageView(relativeLayout),5, Card.Suit.Club, R.drawable.club5);
-        Card club6 = new Card(stockAndWaste, getCardImageView(relativeLayout),6, Card.Suit.Club, R.drawable.club6);
+        Card club2 = new Card(basicPileList[0], getCardImageView(relativeLayout), 2, Card.Suit.Club, R.drawable.club2); club2.openCard();
+        Card club3 = new Card(stockAndWaste, getCardImageView(relativeLayout), 3, Card.Suit.Club, R.drawable.club3);
+        Card club4 = new Card(basicPileList[6], getCardImageView(relativeLayout), 4, Card.Suit.Club, R.drawable.club4);
+        Card club5 = new Card(basicPileList[3], getCardImageView(relativeLayout), 5, Card.Suit.Club, R.drawable.club5);
+        Card club6 = new Card(stockAndWaste, getCardImageView(relativeLayout), 6, Card.Suit.Club, R.drawable.club6);
+        Card club7 = new Card(basicPileList[5], getCardImageView(relativeLayout), 7, Card.Suit.Club, R.drawable.club7);
+        Card club8 = new Card(basicPileList[5], getCardImageView(relativeLayout), 8, Card.Suit.Club, R.drawable.club8);
+        Card club9 = new Card(basicPileList[1], getCardImageView(relativeLayout), 9, Card.Suit.Club, R.drawable.club9);
+        Card club10 = new Card(basicPileList[6], getCardImageView(relativeLayout), 10, Card.Suit.Club, R.drawable.club10);
+        Card club11 = new Card(basicPileList[4], getCardImageView(relativeLayout), 11, Card.Suit.Club, R.drawable.club11);
+        Card club12 = new Card(stockAndWaste, getCardImageView(relativeLayout), 12, Card.Suit.Club, R.drawable.club12);
+        Card club13 = new Card(basicPileList[6], getCardImageView(relativeLayout), 13, Card.Suit.Club, R.drawable.club13);
+
+        Card diamond1 = new Card(stockAndWaste, getCardImageView(relativeLayout), 1, Card.Suit.Diamond, R.drawable.diamond1);
+        Card diamond2 = new Card(basicPileList[5], getCardImageView(relativeLayout), 2, Card.Suit.Diamond, R.drawable.diamond2);
+        Card diamond3 = new Card(stockAndWaste, getCardImageView(relativeLayout), 3, Card.Suit.Diamond, R.drawable.diamond3);
+        Card diamond4 = new Card(basicPileList[1], getCardImageView(relativeLayout), 4, Card.Suit.Diamond, R.drawable.diamond4); diamond4.openCard();
+        Card diamond5 = new Card(basicPileList[4], getCardImageView(relativeLayout), 5, Card.Suit.Diamond, R.drawable.diamond5);
+        Card diamond6 = new Card(stockAndWaste, getCardImageView(relativeLayout), 6, Card.Suit.Diamond, R.drawable.diamond6);
+        Card diamond7 = new Card(basicPileList[6], getCardImageView(relativeLayout), 7, Card.Suit.Diamond, R.drawable.diamond7);
+        Card diamond8 = new Card(basicPileList[3], getCardImageView(relativeLayout), 8, Card.Suit.Diamond, R.drawable.diamond8);
+        Card diamond9 = new Card(stockAndWaste, getCardImageView(relativeLayout), 9, Card.Suit.Diamond, R.drawable.diamond9);
+        Card diamond10 = new Card(stockAndWaste, getCardImageView(relativeLayout), 10, Card.Suit.Diamond, R.drawable.diamond10);
+        Card diamond11 = new Card(basicPileList[3], getCardImageView(relativeLayout), 11, Card.Suit.Diamond, R.drawable.diamond11);
+        Card diamond12 = new Card(stockAndWaste, getCardImageView(relativeLayout), 12, Card.Suit.Diamond, R.drawable.diamond12);
+        Card diamond13 = new Card(stockAndWaste, getCardImageView(relativeLayout), 13, Card.Suit.Diamond, R.drawable.diamond13);
+
+        Card spade1 = new Card(stockAndWaste, getCardImageView(relativeLayout), 1, Card.Suit.Spade, R.drawable.spade1);
+        Card spade2 = new Card(basicPileList[3], getCardImageView(relativeLayout), 2, Card.Suit.Spade, R.drawable.spade2); spade2.openCard();
+        Card spade3 = new Card(basicPileList[6], getCardImageView(relativeLayout), 3, Card.Suit.Spade, R.drawable.spade3);
+        Card spade4 = new Card(basicPileList[2], getCardImageView(relativeLayout), 4, Card.Suit.Spade, R.drawable.spade4);
+        Card spade5 = new Card(basicPileList[5], getCardImageView(relativeLayout), 5, Card.Suit.Spade, R.drawable.spade5);
+        Card spade6 = new Card(basicPileList[4], getCardImageView(relativeLayout), 6, Card.Suit.Spade, R.drawable.spade6);
+        Card spade7 = new Card(basicPileList[4], getCardImageView(relativeLayout), 7, Card.Suit.Spade, R.drawable.spade7);
+        Card spade8 = new Card(basicPileList[6], getCardImageView(relativeLayout), 8, Card.Suit.Spade, R.drawable.spade8);
+        Card spade9 = new Card(basicPileList[2], getCardImageView(relativeLayout), 9, Card.Suit.Spade, R.drawable.spade9);
+        Card spade10 = new Card(stockAndWaste, getCardImageView(relativeLayout), 10, Card.Suit.Spade, R.drawable.spade10);
+        Card spade11 = new Card(basicPileList[5], getCardImageView(relativeLayout), 11, Card.Suit.Spade, R.drawable.spade11);
         Card spade12 = new Card(stockAndWaste, getCardImageView(relativeLayout), 12, Card.Suit.Spade, R.drawable.spade12);
-        Card club13 = new Card(basicPileList[3], getCardImageView(relativeLayout),13, Card.Suit.Club, R.drawable.club13); club13.openCard();
-        Card spade8 = new Card(basicPileList[0], getCardImageView(relativeLayout),8, Card.Suit.Spade, R.drawable.spade8); spade8.openCard();
-        Card heart11 = new Card(basicPileList[6], getCardImageView(relativeLayout),11, Card.Suit.Heart, R.drawable.heart11); heart11.openCard();
+        Card spade13 = new Card(basicPileList[5], getCardImageView(relativeLayout), 13, Card.Suit.Spade, R.drawable.spade13); spade13.openCard();
+
+        Card heart1 = new Card(stockAndWaste, getCardImageView(relativeLayout), 1, Card.Suit.Heart, R.drawable.heart1);
+        Card heart2 = new Card(stockAndWaste, getCardImageView(relativeLayout), 2, Card.Suit.Heart, R.drawable.heart2);
+        Card heart3 = new Card(basicPileList[4], getCardImageView(relativeLayout), 3, Card.Suit.Heart, R.drawable.heart3); heart3.openCard();
+        Card heart4 = new Card(stockAndWaste, getCardImageView(relativeLayout), 4, Card.Suit.Heart, R.drawable.heart4);
+        Card heart5 = new Card(stockAndWaste, getCardImageView(relativeLayout), 5, Card.Suit.Heart, R.drawable.heart5);
+        Card heart6 = new Card(basicPileList[2], getCardImageView(relativeLayout), 6, Card.Suit.Heart, R.drawable.heart6); heart6.openCard();
+        Card heart7 = new Card(stockAndWaste, getCardImageView(relativeLayout), 7, Card.Suit.Heart, R.drawable.heart7);
+        Card heart8 = new Card(stockAndWaste, getCardImageView(relativeLayout), 8, Card.Suit.Heart, R.drawable.heart8);
+        Card heart9 = new Card(stockAndWaste, getCardImageView(relativeLayout), 9, Card.Suit.Heart, R.drawable.heart9);
+        Card heart10 = new Card(basicPileList[6], getCardImageView(relativeLayout), 10, Card.Suit.Heart, R.drawable.heart10); heart10.openCard();
+        Card heart11 = new Card(stockAndWaste, getCardImageView(relativeLayout), 11, Card.Suit.Heart, R.drawable.heart11);
+        Card heart12 = new Card(stockAndWaste, getCardImageView(relativeLayout), 12, Card.Suit.Heart, R.drawable.heart12);
+        Card heart13 = new Card(stockAndWaste, getCardImageView(relativeLayout), 13, Card.Suit.Heart, R.drawable.heart13);
+
     }
 
 
@@ -331,6 +335,44 @@ public class GameScene extends View{
         relativeLayout.addView(imageView);
 
         return imageView;
+    }
+
+    public void setFoundationPile(RelativeLayout relativeLayout, int x, int y, int index, Card.Suit suit){
+        ImageView FoundationPileImg = new ImageView(context);
+        FoundationPileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
+        FoundationPileImg.setBackgroundColor(Color.GRAY);
+        FoundationPileImg.setX(x);
+        FoundationPileImg.setY(y);
+        relativeLayout.addView(FoundationPileImg);
+        foundationPiles[index] = new FoundationPile(new Point((int)FoundationPileImg.getX(), (int)FoundationPileImg.getY()), suit);
+        foundationPiles[index].width = width;
+        foundationPiles[index].height = height;
+
+        switch (suit) {
+            case Heart:
+                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Heart", relativeLayout);
+                break;
+            case Club:
+                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Club", relativeLayout);
+                break;
+            case Diamond:
+                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Diamond", relativeLayout);
+                break;
+            case Spade:
+                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Spade", relativeLayout);
+                break;
+
+        }
+    }
+
+    public void setFoundationHintLabel(int x, int y, String hint, RelativeLayout relativeLayout){
+        TextView labelClubAce = new TextView(context);
+        labelClubAce.setText(hint);
+        labelClubAce.setTextSize(12);
+        labelClubAce.setTextColor(Color.GREEN);
+        labelClubAce.setX(x);
+        labelClubAce.setY(y);
+        relativeLayout.addView(labelClubAce);
     }
 
 }

@@ -55,7 +55,7 @@ public class StockAndWaste extends Pile{
         }
 
         if(stockList.size()==0) {
-            for (int i = 0; i < wasteList.size(); i++) {
+            for (int i = wasteList.size()-1; i >=0; i--) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     wasteList.get(i).img.setElevation(0);
                 }

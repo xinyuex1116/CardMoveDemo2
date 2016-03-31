@@ -15,8 +15,8 @@ public class BasicPile extends Pile{
     Point location;
     Rect area;
 
-    int distanceBetweenOpenCards = 40;
-    int distanceBetweenCloseCards = 20;
+    int distanceBetweenOpenCards = 30;
+    int distanceBetweenCloseCards = 10;
     int width = 93;
     int height = 143;
 
