@@ -324,6 +324,14 @@ public class GameScene extends View{
                     returnCardsBack();
                 }
 
+                for(int i = 0;i<7;i++) {
+                    BasicPile bp = basicPileList[i];
+                    if(bp.cardList.size()!=0) {
+                        if (!bp.cardList.get(bp.cardList.size() - 1).isOpen()) {
+                            bp.cardList.get(bp.cardList.size() - 1).openCard();
+                        }
+                    }
+                }
                 return true;
 
 
