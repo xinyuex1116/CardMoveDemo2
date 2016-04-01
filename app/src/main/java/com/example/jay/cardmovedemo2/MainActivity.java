@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             gameScene = new GameScene(this, relativeLayout, -162, height/8, height/8/93*143);
         }
+
         relativeLayout.addView(gameScene);
 
         setContentView(relativeLayout);

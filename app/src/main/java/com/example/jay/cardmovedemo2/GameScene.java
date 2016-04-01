@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by jay on 16/3/25.
@@ -24,6 +25,7 @@ public class GameScene extends View{
 
     Context context;
 
+    //width, height are attributes of ImageView of cards, marginLeft, marginTop, marginX, marginY are margins of ImageView of basciPiles
     int width = 93;
     int height = 143;
     int marginLeft = 100;
@@ -58,6 +60,7 @@ public class GameScene extends View{
         this.width = width;
         this.height = height;
 
+        //initialize basicPiles and add them to basicPileList
         for(int i = 0;i<7;i++) {
             ImageView pileImg = new ImageView(context);
             pileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
@@ -83,6 +86,7 @@ public class GameScene extends View{
             basicPileList[i].height = height;
         }
 
+        //initialize stockAndWaste
         ImageView stockImg = new ImageView(context);
         stockImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
         stockImg.setBackgroundColor(Color.GRAY);
@@ -101,76 +105,89 @@ public class GameScene extends View{
         stockAndWaste.width = width;
         stockAndWaste.height = height;
 
+        //initialize foundationPiles
         setFoundationPile(relativeLayout, (int)wasteImg.getX()+marginX+width, (int)wasteImg.getY(), 0, Card.Suit.Club);
         setFoundationPile(relativeLayout, (int)wasteImg.getX()+(marginX+width)*2, (int)wasteImg.getY(), 1, Card.Suit.Spade);
         setFoundationPile(relativeLayout, (int)wasteImg.getX()+(marginX+width)*3, (int)wasteImg.getY(), 2, Card.Suit.Diamond);
         setFoundationPile(relativeLayout, (int)wasteImg.getX()+(marginX+width)*4, (int)wasteImg.getY(), 3, Card.Suit.Heart);
 
+        //initialize all the 52 cards and add them to stockList of stockAndWaste
         Card club1 = new Card(stockAndWaste, getCardImageView(relativeLayout), 1, Card.Suit.Club, R.drawable.club1);
-        Card club2 = new Card(basicPileList[0], getCardImageView(relativeLayout), 2, Card.Suit.Club, R.drawable.club2); club2.openCard();
+        Card club2 = new Card(stockAndWaste, getCardImageView(relativeLayout), 2, Card.Suit.Club, R.drawable.club2);
         Card club3 = new Card(stockAndWaste, getCardImageView(relativeLayout), 3, Card.Suit.Club, R.drawable.club3);
-        Card club4 = new Card(basicPileList[6], getCardImageView(relativeLayout), 4, Card.Suit.Club, R.drawable.club4);
-        Card club5 = new Card(basicPileList[3], getCardImageView(relativeLayout), 5, Card.Suit.Club, R.drawable.club5);
+        Card club4 = new Card(stockAndWaste, getCardImageView(relativeLayout), 4, Card.Suit.Club, R.drawable.club4);
+        Card club5 = new Card(stockAndWaste, getCardImageView(relativeLayout), 5, Card.Suit.Club, R.drawable.club5);
         Card club6 = new Card(stockAndWaste, getCardImageView(relativeLayout), 6, Card.Suit.Club, R.drawable.club6);
-        Card club7 = new Card(basicPileList[5], getCardImageView(relativeLayout), 7, Card.Suit.Club, R.drawable.club7);
-        Card club8 = new Card(basicPileList[5], getCardImageView(relativeLayout), 8, Card.Suit.Club, R.drawable.club8);
-        Card club9 = new Card(basicPileList[1], getCardImageView(relativeLayout), 9, Card.Suit.Club, R.drawable.club9);
-        Card club10 = new Card(basicPileList[6], getCardImageView(relativeLayout), 10, Card.Suit.Club, R.drawable.club10);
-        Card club11 = new Card(basicPileList[4], getCardImageView(relativeLayout), 11, Card.Suit.Club, R.drawable.club11);
+        Card club7 = new Card(stockAndWaste, getCardImageView(relativeLayout), 7, Card.Suit.Club, R.drawable.club7);
+        Card club8 = new Card(stockAndWaste, getCardImageView(relativeLayout), 8, Card.Suit.Club, R.drawable.club8);
+        Card club9 = new Card(stockAndWaste, getCardImageView(relativeLayout), 9, Card.Suit.Club, R.drawable.club9);
+        Card club10 = new Card(stockAndWaste, getCardImageView(relativeLayout), 10, Card.Suit.Club, R.drawable.club10);
+        Card club11 = new Card(stockAndWaste, getCardImageView(relativeLayout), 11, Card.Suit.Club, R.drawable.club11);
         Card club12 = new Card(stockAndWaste, getCardImageView(relativeLayout), 12, Card.Suit.Club, R.drawable.club12);
-        Card club13 = new Card(basicPileList[6], getCardImageView(relativeLayout), 13, Card.Suit.Club, R.drawable.club13);
+        Card club13 = new Card(stockAndWaste, getCardImageView(relativeLayout), 13, Card.Suit.Club, R.drawable.club13);
 
         Card diamond1 = new Card(stockAndWaste, getCardImageView(relativeLayout), 1, Card.Suit.Diamond, R.drawable.diamond1);
-        Card diamond2 = new Card(basicPileList[5], getCardImageView(relativeLayout), 2, Card.Suit.Diamond, R.drawable.diamond2);
+        Card diamond2 = new Card(stockAndWaste, getCardImageView(relativeLayout), 2, Card.Suit.Diamond, R.drawable.diamond2);
         Card diamond3 = new Card(stockAndWaste, getCardImageView(relativeLayout), 3, Card.Suit.Diamond, R.drawable.diamond3);
-        Card diamond4 = new Card(basicPileList[1], getCardImageView(relativeLayout), 4, Card.Suit.Diamond, R.drawable.diamond4); diamond4.openCard();
-        Card diamond5 = new Card(basicPileList[4], getCardImageView(relativeLayout), 5, Card.Suit.Diamond, R.drawable.diamond5);
+        Card diamond4 = new Card(stockAndWaste, getCardImageView(relativeLayout), 4, Card.Suit.Diamond, R.drawable.diamond4);
+        Card diamond5 = new Card(stockAndWaste, getCardImageView(relativeLayout), 5, Card.Suit.Diamond, R.drawable.diamond5);
         Card diamond6 = new Card(stockAndWaste, getCardImageView(relativeLayout), 6, Card.Suit.Diamond, R.drawable.diamond6);
-        Card diamond7 = new Card(basicPileList[6], getCardImageView(relativeLayout), 7, Card.Suit.Diamond, R.drawable.diamond7);
-        Card diamond8 = new Card(basicPileList[3], getCardImageView(relativeLayout), 8, Card.Suit.Diamond, R.drawable.diamond8);
+        Card diamond7 = new Card(stockAndWaste, getCardImageView(relativeLayout), 7, Card.Suit.Diamond, R.drawable.diamond7);
+        Card diamond8 = new Card(stockAndWaste, getCardImageView(relativeLayout), 8, Card.Suit.Diamond, R.drawable.diamond8);
         Card diamond9 = new Card(stockAndWaste, getCardImageView(relativeLayout), 9, Card.Suit.Diamond, R.drawable.diamond9);
         Card diamond10 = new Card(stockAndWaste, getCardImageView(relativeLayout), 10, Card.Suit.Diamond, R.drawable.diamond10);
-        Card diamond11 = new Card(basicPileList[3], getCardImageView(relativeLayout), 11, Card.Suit.Diamond, R.drawable.diamond11);
+        Card diamond11 = new Card(stockAndWaste, getCardImageView(relativeLayout), 11, Card.Suit.Diamond, R.drawable.diamond11);
         Card diamond12 = new Card(stockAndWaste, getCardImageView(relativeLayout), 12, Card.Suit.Diamond, R.drawable.diamond12);
         Card diamond13 = new Card(stockAndWaste, getCardImageView(relativeLayout), 13, Card.Suit.Diamond, R.drawable.diamond13);
 
         Card spade1 = new Card(stockAndWaste, getCardImageView(relativeLayout), 1, Card.Suit.Spade, R.drawable.spade1);
-        Card spade2 = new Card(basicPileList[3], getCardImageView(relativeLayout), 2, Card.Suit.Spade, R.drawable.spade2); spade2.openCard();
-        Card spade3 = new Card(basicPileList[6], getCardImageView(relativeLayout), 3, Card.Suit.Spade, R.drawable.spade3);
-        Card spade4 = new Card(basicPileList[2], getCardImageView(relativeLayout), 4, Card.Suit.Spade, R.drawable.spade4);
-        Card spade5 = new Card(basicPileList[5], getCardImageView(relativeLayout), 5, Card.Suit.Spade, R.drawable.spade5);
-        Card spade6 = new Card(basicPileList[4], getCardImageView(relativeLayout), 6, Card.Suit.Spade, R.drawable.spade6);
-        Card spade7 = new Card(basicPileList[4], getCardImageView(relativeLayout), 7, Card.Suit.Spade, R.drawable.spade7);
-        Card spade8 = new Card(basicPileList[6], getCardImageView(relativeLayout), 8, Card.Suit.Spade, R.drawable.spade8);
-        Card spade9 = new Card(basicPileList[2], getCardImageView(relativeLayout), 9, Card.Suit.Spade, R.drawable.spade9);
+        Card spade2 = new Card(stockAndWaste, getCardImageView(relativeLayout), 2, Card.Suit.Spade, R.drawable.spade2);
+        Card spade3 = new Card(stockAndWaste, getCardImageView(relativeLayout), 3, Card.Suit.Spade, R.drawable.spade3);
+        Card spade4 = new Card(stockAndWaste, getCardImageView(relativeLayout), 4, Card.Suit.Spade, R.drawable.spade4);
+        Card spade5 = new Card(stockAndWaste, getCardImageView(relativeLayout), 5, Card.Suit.Spade, R.drawable.spade5);
+        Card spade6 = new Card(stockAndWaste, getCardImageView(relativeLayout), 6, Card.Suit.Spade, R.drawable.spade6);
+        Card spade7 = new Card(stockAndWaste, getCardImageView(relativeLayout), 7, Card.Suit.Spade, R.drawable.spade7);
+        Card spade8 = new Card(stockAndWaste, getCardImageView(relativeLayout), 8, Card.Suit.Spade, R.drawable.spade8);
+        Card spade9 = new Card(stockAndWaste, getCardImageView(relativeLayout), 9, Card.Suit.Spade, R.drawable.spade9);
         Card spade10 = new Card(stockAndWaste, getCardImageView(relativeLayout), 10, Card.Suit.Spade, R.drawable.spade10);
-        Card spade11 = new Card(basicPileList[5], getCardImageView(relativeLayout), 11, Card.Suit.Spade, R.drawable.spade11);
+        Card spade11 = new Card(stockAndWaste, getCardImageView(relativeLayout), 11, Card.Suit.Spade, R.drawable.spade11);
         Card spade12 = new Card(stockAndWaste, getCardImageView(relativeLayout), 12, Card.Suit.Spade, R.drawable.spade12);
-        Card spade13 = new Card(basicPileList[5], getCardImageView(relativeLayout), 13, Card.Suit.Spade, R.drawable.spade13); spade13.openCard();
+        Card spade13 = new Card(stockAndWaste, getCardImageView(relativeLayout), 13, Card.Suit.Spade, R.drawable.spade13);
 
         Card heart1 = new Card(stockAndWaste, getCardImageView(relativeLayout), 1, Card.Suit.Heart, R.drawable.heart1);
         Card heart2 = new Card(stockAndWaste, getCardImageView(relativeLayout), 2, Card.Suit.Heart, R.drawable.heart2);
-        Card heart3 = new Card(basicPileList[4], getCardImageView(relativeLayout), 3, Card.Suit.Heart, R.drawable.heart3); heart3.openCard();
+        Card heart3 = new Card(stockAndWaste, getCardImageView(relativeLayout), 3, Card.Suit.Heart, R.drawable.heart3);
         Card heart4 = new Card(stockAndWaste, getCardImageView(relativeLayout), 4, Card.Suit.Heart, R.drawable.heart4);
         Card heart5 = new Card(stockAndWaste, getCardImageView(relativeLayout), 5, Card.Suit.Heart, R.drawable.heart5);
-        Card heart6 = new Card(basicPileList[2], getCardImageView(relativeLayout), 6, Card.Suit.Heart, R.drawable.heart6); heart6.openCard();
+        Card heart6 = new Card(stockAndWaste, getCardImageView(relativeLayout), 6, Card.Suit.Heart, R.drawable.heart6);
         Card heart7 = new Card(stockAndWaste, getCardImageView(relativeLayout), 7, Card.Suit.Heart, R.drawable.heart7);
         Card heart8 = new Card(stockAndWaste, getCardImageView(relativeLayout), 8, Card.Suit.Heart, R.drawable.heart8);
         Card heart9 = new Card(stockAndWaste, getCardImageView(relativeLayout), 9, Card.Suit.Heart, R.drawable.heart9);
-        Card heart10 = new Card(basicPileList[6], getCardImageView(relativeLayout), 10, Card.Suit.Heart, R.drawable.heart10); heart10.openCard();
+        Card heart10 = new Card(stockAndWaste, getCardImageView(relativeLayout), 10, Card.Suit.Heart, R.drawable.heart10);
         Card heart11 = new Card(stockAndWaste, getCardImageView(relativeLayout), 11, Card.Suit.Heart, R.drawable.heart11);
         Card heart12 = new Card(stockAndWaste, getCardImageView(relativeLayout), 12, Card.Suit.Heart, R.drawable.heart12);
         Card heart13 = new Card(stockAndWaste, getCardImageView(relativeLayout), 13, Card.Suit.Heart, R.drawable.heart13);
 
+        //pick random cards from stockList and add them to the specific basicPile
+        basicPileList[0].setCardsToCardList(getRandomCardsToPile(1, stockAndWaste.stockList));
+        basicPileList[1].setCardsToCardList(getRandomCardsToPile(2, stockAndWaste.stockList));
+        basicPileList[2].setCardsToCardList(getRandomCardsToPile(3, stockAndWaste.stockList));
+        basicPileList[3].setCardsToCardList(getRandomCardsToPile(4, stockAndWaste.stockList));
+        basicPileList[4].setCardsToCardList(getRandomCardsToPile(5, stockAndWaste.stockList));
+        basicPileList[5].setCardsToCardList(getRandomCardsToPile(6, stockAndWaste.stockList));
+        basicPileList[6].setCardsToCardList(getRandomCardsToPile(7, stockAndWaste.stockList));
+
+
     }
 
-
+    //set touchevent
     public boolean onTouchEvent(MotionEvent e) {
 
         int action = MotionEventCompat.getActionMasked(e);
 
         switch (action) {
 
+            //recognize the touch down point, if it is in the valid area, add cards to tempList or do reset and filp actions of stockAndWaste
             case MotionEvent.ACTION_DOWN:
 
                 if(stockAndWaste.stockArea.contains((int) e.getRawX(), (int) e.getRawY() + touchCorrection)){
@@ -217,11 +234,15 @@ public class GameScene extends View{
                 if (tempList.size() != 0) {
                     for (int i = 0; i < tempList.size(); i++) {
                         tempList.get(i).setLocation((int) e.getRawX() - 50, (int) e.getRawY() + touchCorrection - 50 + 40 * i);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            tempList.get(i).img.setElevation(200+i);
+                        }
                     }
                 }
 
                 return true;
 
+            //make the selected cards(cards in tempList) move with the touch point
             case MotionEvent.ACTION_MOVE:
 
                 if (screen.contains((int) e.getRawX(), (int) e.getRawY() + touchCorrection)) {
@@ -243,6 +264,8 @@ public class GameScene extends View{
 
                 return true;
 
+            //recognize touch up point, if it is in the valid area, add cards in tempList to valid Pile and reset the location of cards in tempList
+            //if it is not in valid area, return cards to the original Pile and reset the location of cards in tempList
             case MotionEvent.ACTION_UP:
 
                 if(stockAndWaste.stockArea.contains((int) e.getRawX(), (int) e.getRawY() + touchCorrection)){
@@ -373,6 +396,19 @@ public class GameScene extends View{
         labelClubAce.setX(x);
         labelClubAce.setY(y);
         relativeLayout.addView(labelClubAce);
+    }
+
+    //method to pick specific number of random cards from an arrayList
+    public Card[] getRandomCardsToPile(int numberOfCards, ArrayList<Card> cardList){
+        Card[] cards = new Card[numberOfCards];
+
+        for(int i = 0;i<numberOfCards;i++){
+            int n = new Random().nextInt(cardList.size());
+            cards[i] = cardList.get(n);
+            cardList.remove(cardList.get(n));
+        }
+
+        return cards;
     }
 
 }

@@ -57,6 +57,17 @@ public class BasicPile extends Pile{
 
     }
 
+    public void setCardsToCardList(Card[] cards){
+        for(int i = 0; i<cards.length; i++) {
+            addCard(cards[i]);
+
+        }
+
+        if(!cardList.get(cardList.size()-1).isOpen()){
+            cardList.get(cardList.size()-1).openCard();
+        }
+    }
+
 
     // rule check method
     private boolean isCardsCanBeAdded(ArrayList<Card> tempList){
