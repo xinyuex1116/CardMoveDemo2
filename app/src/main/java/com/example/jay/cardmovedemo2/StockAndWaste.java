@@ -33,10 +33,26 @@ public class StockAndWaste extends Pile{
         card.setLocation(stockArea.left, stockArea.top);
     }
 
+    public void loadCardToStock(Card card){
+        stockList.add(card);
+
+        card.setLocation(stockArea.left, stockArea.top);
+    }
+
+    public void loadCardToWaste(Card card){
+        card.openCard();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            card.img.setElevation(wasteList.size()+1);
+        }
+
+        wasteList.add(card);
+        card.setLocation(wasteArea.left, wasteArea.top);
+    }
+
     public void addCardToTempList(ArrayList<Card> tempList){
         if(wasteList.size()!=0){
             tempList.add(wasteList.get(wasteList.size()-1));
-            wasteList.remove(wasteList.get(wasteList.size()-1));
+            wasteList.remove(wasteList.get(wasteList.size() - 1));
         }
     }
 
@@ -88,6 +104,36 @@ public class StockAndWaste extends Pile{
         AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
         alphaAnimation.setDuration(1000);
         return alphaAnimation;
+    }
+
+    public String getStockCardListInfo(){
+        String info = "";
+
+        if(stockList.size()==0){
+            info += "empty";
+        }
+        else {
+            for (int i = 0; i < stockList.size(); i++) {
+                info += stockList.get(i).getCardName() + "&";
+            }
+        }
+
+        return info;
+    }
+
+    public String getWasteCardListInfo(){
+        String info = "";
+
+        if(wasteList.size()==0){
+            info += "empty";
+        }
+        else {
+            for (int i = 0; i < wasteList.size(); i++) {
+                info += wasteList.get(i).getCardName() + "&";
+            }
+        }
+
+        return info;
     }
 
 }
