@@ -58,6 +58,8 @@ public class GameScene extends View{
 
     ArrayList<Card> allCards = new ArrayList<Card>();
 
+    RelativeLayout relativeLayout;
+
     int lastIndexOfPile = -1;
 
     boolean flip = false;
@@ -72,6 +74,7 @@ public class GameScene extends View{
         this.touchCorrection = touchCorrection;
         this.width = width;
         this.height = height;
+        this.relativeLayout = relativeLayout;
 
 
         Log.d("test:",loadHelper()[0]);
@@ -138,7 +141,7 @@ public class GameScene extends View{
         random.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearCards(relativeLayout);
+                clearCards();
                 randomGame(relativeLayout);
             }
         });
@@ -171,7 +174,7 @@ public class GameScene extends View{
         load.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearCards(relativeLayout);
+                clearCards();
                 String[] pileInfo = loadHelper();
                 String[] stockInfo = getPileString(pileInfo[0]);
                 String[] wasteInfo = getPileString(pileInfo[1]);
@@ -190,34 +193,10 @@ public class GameScene extends View{
                 if(stockInfo.length!=1) {
                     for (int i = 0; i < stockInfo.length; i++) {
 
-                            int rank = Integer.parseInt(stockInfo[i].split(",")[1]);
-                            String suitStr = stockInfo[i].split(",")[0];
-                            switch (suitStr) {
-                                case "spade":
-                                    Card card = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Spade);
-                                    allCards.add(card);
-                                    stockAndWaste.stockList.remove(card);
-                                    stockAndWaste.loadCardToStock(card);
-                                    break;
-                                case "heart":
-                                    Card card1 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Heart);
-                                    allCards.add(card1);
-                                    stockAndWaste.stockList.remove(card1);
-                                    stockAndWaste.loadCardToStock(card1);
-                                    break;
-                                case "diamond":
-                                    Card card2 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Diamond);
-                                    allCards.add(card2);
-                                    stockAndWaste.stockList.remove(card2);
-                                    stockAndWaste.loadCardToStock(card2);
-                                    break;
-                                case "club":
-                                    Card card3 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Club);
-                                    allCards.add(card3);
-                                    stockAndWaste.stockList.remove(card3);
-                                    stockAndWaste.loadCardToStock(card3);
-                                    break;
-                            }
+                        int rank = Integer.parseInt(stockInfo[i].split(",")[1]);
+                        String suitStr = stockInfo[i].split(",")[0];
+
+                        stockAndWaste.loadCardToStock(createFreeCard(rank, suitStr));
 
                     }
                 }
@@ -225,67 +204,20 @@ public class GameScene extends View{
                     if(!stockInfo[0].equals("empty")){
                         int rank = Integer.parseInt(stockInfo[0].split(",")[1]);
                         String suitStr = stockInfo[0].split(",")[0];
-                        switch (suitStr) {
-                            case "spade":
-                                Card card = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Spade);
-                                allCards.add(card);
-                                stockAndWaste.stockList.remove(card);
-                                stockAndWaste.loadCardToStock(card);
-                                break;
-                            case "heart":
-                                Card card1 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Heart);
-                                allCards.add(card1);
-                                stockAndWaste.stockList.remove(card1);
-                                stockAndWaste.loadCardToStock(card1);
-                                break;
-                            case "diamond":
-                                Card card2 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Diamond);
-                                allCards.add(card2);
-                                stockAndWaste.stockList.remove(card2);
-                                stockAndWaste.loadCardToStock(card2);
-                                break;
-                            case "club":
-                                Card card3 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Club);
-                                allCards.add(card3);
-                                stockAndWaste.stockList.remove(card3);
-                                stockAndWaste.loadCardToStock(card3);
-                                break;
-                        }
+
+                        stockAndWaste.loadCardToStock(createFreeCard(rank, suitStr));
+
                     }
                 }
 
                 if(wasteInfo.length!=1) {
                     for (int i = 0; i < wasteInfo.length; i++) {
 
-                            int rank = Integer.parseInt(wasteInfo[i].split(",")[1]);
-                            String suitStr = wasteInfo[i].split(",")[0];
+                        int rank = Integer.parseInt(wasteInfo[i].split(",")[1]);
+                        String suitStr = wasteInfo[i].split(",")[0];
 
-                            switch (suitStr) {
-                                case "spade":
-                                    Card card = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Spade);
-                                    allCards.add(card);
-                                    stockAndWaste.stockList.remove(card);
-                                    stockAndWaste.loadCardToWaste(card);
-                                    break;
-                                case "heart":
-                                    Card card1 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Heart);
-                                    allCards.add(card1);
-                                    stockAndWaste.stockList.remove(card1);
-                                    stockAndWaste.loadCardToWaste(card1);
-                                    break;
-                                case "diamond":
-                                    Card card2 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Diamond);
-                                    allCards.add(card2);
-                                    stockAndWaste.stockList.remove(card2);
-                                    stockAndWaste.loadCardToWaste(card2);
-                                    break;
-                                case "club":
-                                    Card card3 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Club);
-                                    allCards.add(card3);
-                                    stockAndWaste.stockList.remove(card3);
-                                    stockAndWaste.loadCardToWaste(card3);
-                                    break;
-                            }
+                       stockAndWaste.loadCardToWaste(createFreeCard(rank, suitStr));
+
 
                     }
                 }
@@ -294,47 +226,23 @@ public class GameScene extends View{
                         int rank = Integer.parseInt(wasteInfo[0].split(",")[1]);
                         String suitStr = wasteInfo[0].split(",")[0];
 
-                        switch (suitStr) {
-                            case "spade":
-                                Card card = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Spade);
-                                allCards.add(card);
-                                stockAndWaste.stockList.remove(card);
-                                stockAndWaste.loadCardToWaste(card);
-                                break;
-                            case "heart":
-                                Card card1 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Heart);
-                                allCards.add(card1);
-                                stockAndWaste.stockList.remove(card1);
-                                stockAndWaste.loadCardToWaste(card1);
-                                break;
-                            case "diamond":
-                                Card card2 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Diamond);
-                                allCards.add(card2);
-                                stockAndWaste.stockList.remove(card2);
-                                stockAndWaste.loadCardToWaste(card2);
-                                break;
-                            case "club":
-                                Card card3 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Club);
-                                allCards.add(card3);
-                                stockAndWaste.stockList.remove(card3);
-                                stockAndWaste.loadCardToWaste(card3);
-                                break;
-                        }
+                        stockAndWaste.loadCardToWaste(createFreeCard(rank, suitStr));
+
                     }
                 }
 
-                loadCardsInFoundationPile(foundation1Info, foundationPiles[0], relativeLayout);
-                loadCardsInFoundationPile(foundation2Info, foundationPiles[1], relativeLayout);
-                loadCardsInFoundationPile(foundation3Info, foundationPiles[2], relativeLayout);
-                loadCardsInFoundationPile(foundation4Info, foundationPiles[3], relativeLayout);
+                loadCardsInFoundationPile(foundation1Info, foundationPiles[0]);
+                loadCardsInFoundationPile(foundation2Info, foundationPiles[1]);
+                loadCardsInFoundationPile(foundation3Info, foundationPiles[2]);
+                loadCardsInFoundationPile(foundation4Info, foundationPiles[3]);
 
-                loadCardsInBasicPile(basicPile1Info, basicPileList[0], relativeLayout);
-                loadCardsInBasicPile(basicPile2Info, basicPileList[1], relativeLayout);
-                loadCardsInBasicPile(basicPile3Info, basicPileList[2], relativeLayout);
-                loadCardsInBasicPile(basicPile4Info, basicPileList[3], relativeLayout);
-                loadCardsInBasicPile(basicPile5Info, basicPileList[4], relativeLayout);
-                loadCardsInBasicPile(basicPile6Info, basicPileList[5], relativeLayout);
-                loadCardsInBasicPile(basicPile7Info, basicPileList[6], relativeLayout);
+                loadCardsInBasicPile(basicPile1Info, basicPileList[0]);
+                loadCardsInBasicPile(basicPile2Info, basicPileList[1]);
+                loadCardsInBasicPile(basicPile3Info, basicPileList[2]);
+                loadCardsInBasicPile(basicPile4Info, basicPileList[3]);
+                loadCardsInBasicPile(basicPile5Info, basicPileList[4]);
+                loadCardsInBasicPile(basicPile6Info, basicPileList[5]);
+                loadCardsInBasicPile(basicPile7Info, basicPileList[6]);
 
             }
         });
@@ -524,7 +432,7 @@ public class GameScene extends View{
 
     public void randomGame(RelativeLayout relativeLayout){
         //initialize all the 52 cards and add them to stockList of stockAndWaste
-        load52Cards(relativeLayout);
+        load52Cards();
 
         //pick random cards from stockList and add them to the specific basicPile
         basicPileList[0].setCardsToCardList(getRandomCardsToPile(1, stockAndWaste.stockList));
@@ -536,7 +444,7 @@ public class GameScene extends View{
         basicPileList[6].setCardsToCardList(getRandomCardsToPile(7, stockAndWaste.stockList));
     }
 
-    public ImageView getCardImageView(RelativeLayout relativeLayout){
+    private ImageView getCardImageView(){
         ImageView imageView = new ImageView(context);
         imageView.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
         relativeLayout.addView(imageView);
@@ -595,29 +503,29 @@ public class GameScene extends View{
         return cards;
     }
 
-    private void load52Cards(RelativeLayout relativeLayout){
+    private void load52Cards(){
         for(int i=0;i<4;i++){
             switch (i){
                 case 0:
-                    load13SameSuitCards(Card.Suit.Club, relativeLayout);
+                    load13SameSuitCards(Card.Suit.Club);
                     break;
                 case 1:
-                    load13SameSuitCards(Card.Suit.Spade, relativeLayout);
+                    load13SameSuitCards(Card.Suit.Spade);
                     break;
                 case 2:
-                    load13SameSuitCards(Card.Suit.Diamond, relativeLayout);
+                    load13SameSuitCards(Card.Suit.Diamond);
                     break;
                 case 3:
-                    load13SameSuitCards(Card.Suit.Heart, relativeLayout);
+                    load13SameSuitCards(Card.Suit.Heart);
                     break;
             }
         }
     }
 
-    private void load13SameSuitCards(Card.Suit suit, RelativeLayout relativeLayout){
+    private void load13SameSuitCards(Card.Suit suit){
         for(int i=1;i<=13;i++){
             try {
-                Card card = new Card(stockAndWaste, getCardImageView(relativeLayout), i, suit);
+                Card card = new Card(stockAndWaste, getCardImageView(), i, suit);
                 allCards.add(card);
             }
             catch (Exception e){
@@ -674,7 +582,7 @@ public class GameScene extends View{
         return PileInfo;
     }
 
-    private void clearCards(RelativeLayout relativeLayout){
+    private void clearCards(){
         for(int i = 0;i<allCards.size();i++) {
             relativeLayout.removeView(allCards.get(i).img);
         }
@@ -700,37 +608,14 @@ public class GameScene extends View{
         return str;
     }
 
-    private void loadCardsInFoundationPile(String[] foundationInfo, FoundationPile foundationPile, RelativeLayout relativeLayout){
+    private void loadCardsInFoundationPile(String[] foundationInfo, FoundationPile foundationPile){
         if(foundationInfo.length!=1) {
             for (int i = 0; i < foundationInfo.length; i++) {
                 int rank = Integer.parseInt(foundationInfo[i].split(",")[1]);
                 String suitStr = foundationInfo[i].split(",")[0];
-                switch (suitStr){
-                    case "spade":
-                        Card card1 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Spade);
-                        allCards.add(card1);
-                        stockAndWaste.stockList.remove(card1);
-                        foundationPile.addCard(card1);
-                        break;
-                    case "heart":
-                        Card card2 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Heart);
-                        allCards.add(card2);
-                        stockAndWaste.stockList.remove(card2);
-                        foundationPile.addCard(card2);
-                        break;
-                    case "diamond":
-                        Card card3 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Diamond);
-                        allCards.add(card3);
-                        stockAndWaste.stockList.remove(card3);
-                        foundationPile.addCard(card3);
-                        break;
-                    case "club":
-                        Card card4 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Club);
-                        allCards.add(card4);
-                        stockAndWaste.stockList.remove(card4);
-                        foundationPile.addCard(card4);
-                        break;
-                }
+
+                foundationPile.addCard(createFreeCard(rank, suitStr));
+
             }
         }
         else {
@@ -738,39 +623,43 @@ public class GameScene extends View{
                 int rank = Integer.parseInt(foundationInfo[0].split(",")[1]);
                 String suitStr = foundationInfo[0].split(",")[0];
 
-                switch (suitStr){
-                    case "spade":
-                        Card card = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Spade);
-                        allCards.add(card);
-                        stockAndWaste.stockList.remove(card);
-                        foundationPile.addCard(card);
-                        break;
-                    case "heart":
-                        Card card1 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Heart);
-                        allCards.add(card1);
-                        stockAndWaste.stockList.remove(card1);
-                        foundationPile.addCard(card1);
-                        break;
-                    case "diamond":
-                        Card card2 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Diamond);
-                        allCards.add(card2);
-                        stockAndWaste.stockList.remove(card2);
-                        foundationPile.addCard(card2);
-                        break;
-                    case "club":
-                        Card card3 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Club);
-                        allCards.add(card3);
-                        stockAndWaste.stockList.remove(card3);
-                        foundationPile.addCard(card3);
-                        break;
-                }
+                foundationPile.addCard(createFreeCard(rank, suitStr));
+
 
 
             }
         }
     }
 
-    private void loadCardsInBasicPile(String[] basicPileInfo, BasicPile basicPile, RelativeLayout relativeLayout){
+    private Card createFreeCard(int rank, String suitStr){
+        Card card = null;
+        switch (suitStr) {
+            case "spade":
+                card = createCardWithSuit(rank, Card.Suit.Spade);
+                break;
+            case "heart":
+                card = createCardWithSuit(rank, Card.Suit.Heart);
+                break;
+            case "diamond":
+                card = createCardWithSuit(rank, Card.Suit.Diamond);
+                break;
+            case "club":
+                card = createCardWithSuit(rank, Card.Suit.Club);
+                break;
+        }
+
+        return card;
+    }
+
+    private Card createCardWithSuit(int rank, Card.Suit suit){
+        Card card = new Card(stockAndWaste, getCardImageView(), rank, suit);
+        allCards.add(card);
+        stockAndWaste.stockList.remove(card);
+
+        return card;
+    }
+
+    private void loadCardsInBasicPile(String[] basicPileInfo, BasicPile basicPile){
 
         if(basicPileInfo.length==1){
             if(!basicPileInfo[0].equals("empty")){
@@ -778,46 +667,11 @@ public class GameScene extends View{
                 String suitStr = basicPileInfo[0].split(",")[0];
                 boolean isOpen = basicPileInfo[0].split(",")[2].equals("open");
 
-                switch (suitStr){
-                    case "spade":
-                        Card card = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Spade);
-                        allCards.add(card);
-                        stockAndWaste.stockList.remove(card);
-                        if(isOpen){
-                            card.openCard();
-                        }
-                        basicPile.addCard(card);
-                        break;
-                    case "heart":
-                        Card card1 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Heart);
-                        allCards.add(card1);
-                        stockAndWaste.stockList.remove(card1);
-                        if(isOpen){
-                            card1.openCard();
-                        }
-                        basicPile.addCard(card1);
-                        break;
-                    case "diamond":
-                        Card card2 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Diamond);
-                        allCards.add(card2);
-                        stockAndWaste.stockList.remove(card2);
-                        if(isOpen){
-                            card2.openCard();
-                        }
-                        basicPile.addCard(card2);
-                        break;
-                    case "club":
-                        Card card3 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Club);
-                        allCards.add(card3);
-                        stockAndWaste.stockList.remove(card3);
-                        if(isOpen){
-                            card3.openCard();
-                        }
-                        basicPile.addCard(card3);
-                        break;
+                Card card = createFreeCard(rank, suitStr);
+                if(isOpen) {
+                    card.openCard();
                 }
-
-
+                basicPile.addCard(card);
             }
         }
         else {
@@ -826,44 +680,12 @@ public class GameScene extends View{
                 String suitStr = basicPileInfo[i].split(",")[0];
                 boolean isOpen = basicPileInfo[i].split(",")[2].equals("open");
 
-                switch (suitStr){
-                    case "club":
-                        Card card1 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Club);
-                        allCards.add(card1);
-                        stockAndWaste.stockList.remove(card1);
-                        if(isOpen){
-                            card1.openCard();
-                        }
-                        basicPile.addCard(card1);
-                        break;
-                    case "diamond":
-                        Card card2 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Diamond);
-                        allCards.add(card2);
-                        stockAndWaste.stockList.remove(card2);
-                        if(isOpen){
-                            card2.openCard();
-                        }
-                        basicPile.addCard(card2);
-                        break;
-                    case "spade":
-                        Card card3 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Spade);
-                        allCards.add(card3);
-                        stockAndWaste.stockList.remove(card3);
-                        if(isOpen){
-                            card3.openCard();
-                        }
-                        basicPile.addCard(card3);
-                        break;
-                    case "heart":
-                        Card card4 = new Card(stockAndWaste, getCardImageView(relativeLayout), rank, Card.Suit.Heart);
-                        allCards.add(card4);
-                        stockAndWaste.stockList.remove(card4);
-                        if(isOpen){
-                            card4.openCard();
-                        }
-                        basicPile.addCard(card4);
-                        break;
+                Card card = createFreeCard(rank, suitStr);
+                if(isOpen){
+                    card.openCard();
                 }
+                basicPile.addCard(card);
+
             }
         }
     }
