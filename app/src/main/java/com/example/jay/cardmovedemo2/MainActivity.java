@@ -1,5 +1,6 @@
 package com.example.jay.cardmovedemo2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.media.Image;
@@ -18,13 +19,16 @@ import android.widget.ScrollView;
 import java.io.File;
 import java.io.InputStreamReader;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     GameScene gameScene;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
@@ -35,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
         relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         if(height>width) {
-            gameScene = new GameScene(this, relativeLayout, -162, width/8, height/8);
+            gameScene = new GameScene(this, relativeLayout, 0, width/8, height/8);
         }
         else {
-            gameScene = new GameScene(this, relativeLayout, -162, height/8, width/8);
+            gameScene = new GameScene(this, relativeLayout, 0, height/8, width/8);
         }
 
         
@@ -62,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("touchCorrection:",String.valueOf(-(contentTop+statusBarHeight)));
 
-        gameScene.touchCorrection = -(contentTop+statusBarHeight);
+        //gameScene.touchCorrection = -(contentTop+statusBarHeight);
     }
 
 }

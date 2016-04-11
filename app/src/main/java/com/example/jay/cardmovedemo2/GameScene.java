@@ -430,9 +430,57 @@ public class GameScene extends View{
         }
     }
 
+    //method to pick specific number of random cards from an arrayList
+    public Card[] getRandomCardsToPile(int numberOfCards, ArrayList<Card> cardList){
+        Card[] cards = new Card[numberOfCards];
+
+        for(int i = 0;i<numberOfCards;i++){
+            int n = new Random().nextInt(cardList.size());
+            cards[i] = cardList.get(n);
+            cardList.remove(cardList.get(n));
+        }
+
+        return cards;
+    }
+
+    private void load52Cards(){
+        for(int i=0;i<4;i++){
+            switch (i){
+                case 0:
+                    load13SameSuitCards(Card.Suit.Club);
+                    break;
+                case 1:
+                    load13SameSuitCards(Card.Suit.Spade);
+                    break;
+                case 2:
+                    load13SameSuitCards(Card.Suit.Diamond);
+                    break;
+                case 3:
+                    load13SameSuitCards(Card.Suit.Heart);
+                    break;
+            }
+        }
+    }
+
+    private void shuffle(){
+        ArrayList<Card> tempCards = new ArrayList<Card>();
+        for(int i = 0;i < 52;i++){
+            tempCards.add(stockAndWaste.stockList.get(i));
+        }
+        stockAndWaste.stockList.clear();
+        for(int i = 0;i < 52;i++){
+            int n = new Random().nextInt(tempCards.size());
+            stockAndWaste.stockList.add(tempCards.get(n));
+            tempCards.remove(n);
+        }
+
+        Log.d("test:",String.valueOf(stockAndWaste.stockList.size()));
+    }
+
     public void randomGame(RelativeLayout relativeLayout){
         //initialize all the 52 cards and add them to stockList of stockAndWaste
         load52Cards();
+        shuffle();
 
         //pick random cards from stockList and add them to the specific basicPile
         basicPileList[0].setCardsToCardList(getRandomCardsToPile(1, stockAndWaste.stockList));
@@ -490,37 +538,6 @@ public class GameScene extends View{
         relativeLayout.addView(labelClubAce);
     }
 
-    //method to pick specific number of random cards from an arrayList
-    public Card[] getRandomCardsToPile(int numberOfCards, ArrayList<Card> cardList){
-        Card[] cards = new Card[numberOfCards];
-
-        for(int i = 0;i<numberOfCards;i++){
-            int n = new Random().nextInt(cardList.size());
-            cards[i] = cardList.get(n);
-            cardList.remove(cardList.get(n));
-        }
-
-        return cards;
-    }
-
-    private void load52Cards(){
-        for(int i=0;i<4;i++){
-            switch (i){
-                case 0:
-                    load13SameSuitCards(Card.Suit.Club);
-                    break;
-                case 1:
-                    load13SameSuitCards(Card.Suit.Spade);
-                    break;
-                case 2:
-                    load13SameSuitCards(Card.Suit.Diamond);
-                    break;
-                case 3:
-                    load13SameSuitCards(Card.Suit.Heart);
-                    break;
-            }
-        }
-    }
 
     private void load13SameSuitCards(Card.Suit suit){
         for(int i=1;i<=13;i++){
