@@ -76,9 +76,6 @@ public class GameScene extends View{
         this.height = height;
         this.relativeLayout = relativeLayout;
 
-
-        Log.d("test:",loadHelper()[0]);
-
         //initialize basicPiles and add them to basicPileList
         for(int i = 0;i<7;i++) {
             ImageView pileImg = new ImageView(context);
@@ -125,10 +122,10 @@ public class GameScene extends View{
         stockAndWaste.height = height;
 
         //initialize foundationPiles
-        setFoundationPile(relativeLayout, (int)wasteImg.getX()+marginX+width, (int)wasteImg.getY(), 0, Card.Suit.Club);
-        setFoundationPile(relativeLayout, (int) wasteImg.getX() + (marginX + width) * 2, (int) wasteImg.getY(), 1, Card.Suit.Spade);
-        setFoundationPile(relativeLayout, (int) wasteImg.getX() + (marginX + width) * 3, (int) wasteImg.getY(), 2, Card.Suit.Diamond);
-        setFoundationPile(relativeLayout, (int) wasteImg.getX() + (marginX + width) * 4, (int) wasteImg.getY(), 3, Card.Suit.Heart);
+        setFoundationPile((int)wasteImg.getX()+marginX+width, (int)wasteImg.getY(), 0, Card.Suit.Club);
+        setFoundationPile((int) wasteImg.getX() + (marginX + width) * 2, (int) wasteImg.getY(), 1, Card.Suit.Spade);
+        setFoundationPile((int) wasteImg.getX() + (marginX + width) * 3, (int) wasteImg.getY(), 2, Card.Suit.Diamond);
+        setFoundationPile((int) wasteImg.getX() + (marginX + width) * 4, (int) wasteImg.getY(), 3, Card.Suit.Heart);
 
 
         final Button random = new Button(context);
@@ -174,76 +171,7 @@ public class GameScene extends View{
         load.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                clearCards();
-                String[] pileInfo = loadHelper();
-                String[] stockInfo = getPileString(pileInfo[0]);
-                String[] wasteInfo = getPileString(pileInfo[1]);
-                String[] foundation1Info = getPileString(pileInfo[2]);
-                String[] foundation2Info = getPileString(pileInfo[3]);
-                String[] foundation3Info = getPileString(pileInfo[4]);
-                String[] foundation4Info = getPileString(pileInfo[5]);
-                String[] basicPile1Info = getPileString(pileInfo[6]);
-                String[] basicPile2Info = getPileString(pileInfo[7]);
-                String[] basicPile3Info = getPileString(pileInfo[8]);
-                String[] basicPile4Info = getPileString(pileInfo[9]);
-                String[] basicPile5Info = getPileString(pileInfo[10]);
-                String[] basicPile6Info = getPileString(pileInfo[11]);
-                String[] basicPile7Info = getPileString(pileInfo[12]);
-
-                if(stockInfo.length!=1) {
-                    for (int i = 0; i < stockInfo.length; i++) {
-
-                        int rank = Integer.parseInt(stockInfo[i].split(",")[1]);
-                        String suitStr = stockInfo[i].split(",")[0];
-
-                        stockAndWaste.loadCardToStock(createFreeCard(rank, suitStr));
-
-                    }
-                }
-                else {
-                    if(!stockInfo[0].equals("empty")){
-                        int rank = Integer.parseInt(stockInfo[0].split(",")[1]);
-                        String suitStr = stockInfo[0].split(",")[0];
-
-                        stockAndWaste.loadCardToStock(createFreeCard(rank, suitStr));
-
-                    }
-                }
-
-                if(wasteInfo.length!=1) {
-                    for (int i = 0; i < wasteInfo.length; i++) {
-
-                        int rank = Integer.parseInt(wasteInfo[i].split(",")[1]);
-                        String suitStr = wasteInfo[i].split(",")[0];
-
-                       stockAndWaste.loadCardToWaste(createFreeCard(rank, suitStr));
-
-
-                    }
-                }
-                else {
-                    if(!wasteInfo[0].equals("empty")){
-                        int rank = Integer.parseInt(wasteInfo[0].split(",")[1]);
-                        String suitStr = wasteInfo[0].split(",")[0];
-
-                        stockAndWaste.loadCardToWaste(createFreeCard(rank, suitStr));
-
-                    }
-                }
-
-                loadCardsInFoundationPile(foundation1Info, foundationPiles[0]);
-                loadCardsInFoundationPile(foundation2Info, foundationPiles[1]);
-                loadCardsInFoundationPile(foundation3Info, foundationPiles[2]);
-                loadCardsInFoundationPile(foundation4Info, foundationPiles[3]);
-
-                loadCardsInBasicPile(basicPile1Info, basicPileList[0]);
-                loadCardsInBasicPile(basicPile2Info, basicPileList[1]);
-                loadCardsInBasicPile(basicPile3Info, basicPileList[2]);
-                loadCardsInBasicPile(basicPile4Info, basicPileList[3]);
-                loadCardsInBasicPile(basicPile5Info, basicPileList[4]);
-                loadCardsInBasicPile(basicPile6Info, basicPileList[5]);
-                loadCardsInBasicPile(basicPile7Info, basicPileList[6]);
-
+                loadGame();
             }
         });
         relativeLayout.addView(load);
@@ -500,7 +428,7 @@ public class GameScene extends View{
         return imageView;
     }
 
-    public void setFoundationPile(RelativeLayout relativeLayout, int x, int y, int index, Card.Suit suit){
+    public void setFoundationPile(int x, int y, int index, Card.Suit suit){
         ImageView FoundationPileImg = new ImageView(context);
         FoundationPileImg.setLayoutParams(new RelativeLayout.LayoutParams(width, height));
         FoundationPileImg.setBackgroundColor(Color.GRAY);
@@ -513,26 +441,26 @@ public class GameScene extends View{
 
         switch (suit) {
             case Heart:
-                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Heart", relativeLayout);
+                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Heart");
                 break;
             case Club:
-                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Club", relativeLayout);
+                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Club");
                 break;
             case Diamond:
-                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Diamond", relativeLayout);
+                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Diamond");
                 break;
             case Spade:
-                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Spade", relativeLayout);
+                setFoundationHintLabel((int) FoundationPileImg.getX(), (int) FoundationPileImg.getY() - 40, "Spade");
                 break;
 
         }
     }
 
-    public void setFoundationHintLabel(int x, int y, String hint, RelativeLayout relativeLayout){
+    public void setFoundationHintLabel(int x, int y, String hint){
         TextView labelClubAce = new TextView(context);
         labelClubAce.setText(hint);
         labelClubAce.setTextSize(12);
-        labelClubAce.setTextColor(Color.GREEN);
+        labelClubAce.setTextColor(Color.BLUE);
         labelClubAce.setX(x);
         labelClubAce.setY(y);
         relativeLayout.addView(labelClubAce);
@@ -625,6 +553,39 @@ public class GameScene extends View{
         return str;
     }
 
+    private void loadGame(){
+        clearCards();
+        String[] pileInfo = loadHelper();
+        String[] stockInfo = getPileString(pileInfo[0]);
+        String[] wasteInfo = getPileString(pileInfo[1]);
+        String[] foundation1Info = getPileString(pileInfo[2]);
+        String[] foundation2Info = getPileString(pileInfo[3]);
+        String[] foundation3Info = getPileString(pileInfo[4]);
+        String[] foundation4Info = getPileString(pileInfo[5]);
+        String[] basicPile1Info = getPileString(pileInfo[6]);
+        String[] basicPile2Info = getPileString(pileInfo[7]);
+        String[] basicPile3Info = getPileString(pileInfo[8]);
+        String[] basicPile4Info = getPileString(pileInfo[9]);
+        String[] basicPile5Info = getPileString(pileInfo[10]);
+        String[] basicPile6Info = getPileString(pileInfo[11]);
+        String[] basicPile7Info = getPileString(pileInfo[12]);
+
+        loadCardsInStockAndWaste(stockInfo, wasteInfo);
+
+        loadCardsInFoundationPile(foundation1Info, foundationPiles[0]);
+        loadCardsInFoundationPile(foundation2Info, foundationPiles[1]);
+        loadCardsInFoundationPile(foundation3Info, foundationPiles[2]);
+        loadCardsInFoundationPile(foundation4Info, foundationPiles[3]);
+
+        loadCardsInBasicPile(basicPile1Info, basicPileList[0]);
+        loadCardsInBasicPile(basicPile2Info, basicPileList[1]);
+        loadCardsInBasicPile(basicPile3Info, basicPileList[2]);
+        loadCardsInBasicPile(basicPile4Info, basicPileList[3]);
+        loadCardsInBasicPile(basicPile5Info, basicPileList[4]);
+        loadCardsInBasicPile(basicPile6Info, basicPileList[5]);
+        loadCardsInBasicPile(basicPile7Info, basicPileList[6]);
+    }
+
     private void loadCardsInFoundationPile(String[] foundationInfo, FoundationPile foundationPile){
         if(foundationInfo.length!=1) {
             for (int i = 0; i < foundationInfo.length; i++) {
@@ -674,6 +635,49 @@ public class GameScene extends View{
         stockAndWaste.stockList.remove(card);
 
         return card;
+    }
+
+    private void loadCardsInStockAndWaste(String[] stockInfo, String[] wasteInfo){
+        if(stockInfo.length!=1) {
+            for (int i = 0; i < stockInfo.length; i++) {
+
+                int rank = Integer.parseInt(stockInfo[i].split(",")[1]);
+                String suitStr = stockInfo[i].split(",")[0];
+
+                stockAndWaste.loadCardToStock(createFreeCard(rank, suitStr));
+
+            }
+        }
+        else {
+            if(!stockInfo[0].equals("empty")){
+                int rank = Integer.parseInt(stockInfo[0].split(",")[1]);
+                String suitStr = stockInfo[0].split(",")[0];
+
+                stockAndWaste.loadCardToStock(createFreeCard(rank, suitStr));
+
+            }
+        }
+
+        if(wasteInfo.length!=1) {
+            for (int i = 0; i < wasteInfo.length; i++) {
+
+                int rank = Integer.parseInt(wasteInfo[i].split(",")[1]);
+                String suitStr = wasteInfo[i].split(",")[0];
+
+                stockAndWaste.loadCardToWaste(createFreeCard(rank, suitStr));
+
+
+            }
+        }
+        else {
+            if(!wasteInfo[0].equals("empty")){
+                int rank = Integer.parseInt(wasteInfo[0].split(",")[1]);
+                String suitStr = wasteInfo[0].split(",")[0];
+
+                stockAndWaste.loadCardToWaste(createFreeCard(rank, suitStr));
+
+            }
+        }
     }
 
     private void loadCardsInBasicPile(String[] basicPileInfo, BasicPile basicPile){

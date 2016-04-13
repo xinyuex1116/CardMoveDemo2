@@ -2,6 +2,7 @@ package com.example.jay.cardmovedemo2;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class MainActivity extends Activity {
 
         RelativeLayout relativeLayout = new RelativeLayout(this);
         relativeLayout.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        relativeLayout.setBackgroundColor(Color.CYAN);
 
         if(height>width) {
             gameScene = new GameScene(this, relativeLayout, 0, width/8, height/8);
